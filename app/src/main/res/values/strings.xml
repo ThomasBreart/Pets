@@ -103,4 +103,10 @@
 
     <!-- Label for the pet's breed if the breed is unknown [CHAR LIMIT=20] -->
     <string name="unknown_breed">Unknown breed</string>
+
+    <!-- Toast error message when the user try to delete all pets when the list is already empty-->
+    <string name="list_already_empty">The list is already empty</string>
+
+    <!-- Toast message when the user successfully delete all pets -->
+    <string name="all_pet_deleted_successfully">All pets were deleted successfully</string>
 </resources>

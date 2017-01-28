@@ -29,6 +29,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -157,7 +158,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         });
     }
 
-    private void savePet() {
+    private int savePet() {
         String name = mNameEditText.getText().toString().trim();
         String breed = mBreedEditText.getText().toString().trim();
         String strWeight = mWeightEditText.getText().toString().trim();
@@ -166,18 +167,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             weight = Integer.parseInt(strWeight);
         }
 
-      //  if (mCurrentPetUri == null && TextUtils.isEmpty(name) && TextUtils.isEmpty(breed) && TextUtils.isEmpty(strWeight) && mGender == PetEntry.GENDER_UNKNOW) {
-        //    return ;
-        //}
-
-        if (TextUtils.isEmpty(name) || mGender == PetEntry.GENDER_UNKNOW)
-            return ;
+        if (TextUtils.isEmpty(name) || mGender == PetEntry.GENDER_UNKNOW) {
+            Toast.makeText(this, "You need to set a valid name and gender", Toast.LENGTH_SHORT).show();
+            return 0;
+        }
 
         ContentValues values = new ContentValues();
         values.put(PetEntry.COLUMN_PET_NAME, name);
         values.put(PetEntry.COLUMN_PET_BREED, breed);
         values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
         values.put(PetEntry.COLUMN_PET_GENDER, mGender);
+
 
         if (mCurrentPetUri == null) {
             Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
@@ -194,6 +194,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, getString(R.string.editor_update_pet_successful), Toast.LENGTH_SHORT).show();
             }
         }
+        return 1;
     }
 
     private void showDeleteConfirmationDialog() {
@@ -252,8 +253,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                savePet();
-                finish();
+                int check = savePet();
+                if (check == 1) {
+                    finish();
+                }
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

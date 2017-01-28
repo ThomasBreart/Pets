@@ -127,9 +127,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     private void deleteAllPets() {
         int rowsDeleted = getContentResolver().delete(PetEntry.CONTENT_URI, null, null);
         if (rowsDeleted == 0) {
-            Toast.makeText(this, "The list is already empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.list_already_empty, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "All pets were deleted successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.all_pet_deleted_successfully, Toast.LENGTH_SHORT).show();
         }
     }
 
